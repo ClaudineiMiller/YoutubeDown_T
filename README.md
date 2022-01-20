@@ -7,14 +7,14 @@
 
 ### Segue abaixo o print da execução do programa:
 <figure>
-  <img src="image/image1.png" alt="Captura de tela da imagem 1">
+  <img src="img/image1.png" alt="Captura de tela da imagem 1">
 </figure>
 <figure>
-  <img src="image/image2.png" alt="Captura de tela da imagem 2">
+  <img src="img/image2.png" alt="Captura de tela da imagem 2">
 </figure>
 <figure>
-  <img src="image/image3.png" alt="Captura de tela da imagem 3">
+  <img src="img/image3.png" alt="Captura de tela da imagem 3">
 </figure>
 <figure>
-  <img src="image/image4.png" alt="Captura de tela da imagem 4">
+  <img src="img/image4.png" alt="Captura de tela da imagem 4">
 </figure>
