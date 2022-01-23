@@ -16,8 +16,10 @@ __status__ = "Prototype"
 
 import os
 import sys
+from numpy import around
 import requests
 
+from moviepy.editor import *
 from pytube import YouTube
 from pytube import Playlist
 from pytube.cli import on_progress
@@ -37,7 +39,7 @@ class App:
     def __init__(self):
         self.list_menu = [
             ['Baixar apenas 1 vídeo', 'Baixar playlist completa', 'Sair'],
-            ['Baixar apenas audio', 'Baixar vídeo completo', 'Sair']]
+            ['Baixar apenas o audio (formato mp3)', 'Baixar vídeo completo (formato mp4)', 'Sair']]
 
     def clear(self):
         '''Pequena função para limpar o terminal'''
@@ -92,7 +94,7 @@ class App:
 
         list_description = ['Título do vídeo:', 'Visualizações:',
                             'Duração:', 'Publicado em:', 'classificação:', 'Descrição:']
-        list_functions = [yt.title, yt.views, yt.length,
+        list_functions = [yt.title, yt.views, around(yt.length / 60, 2),
                           yt.publish_date, yt.rating, yt.description]
 
         for description, functions in zip(list_description, list_functions):
@@ -102,7 +104,10 @@ class App:
         if self._format == 'audio':
             print(f'\tBaixando o vídeo {yt.title} no formato "mp4"(audio)')
             yt.streams.filter(only_audio=True).first().download(
-                output_path='Downloads_audios')
+                output_path='Downloads_audios', filename='.'+yt.title+'.mp4')
+            
+            self.convert_mp4_to_mp3(f'Downloads_audios/.{yt.title}.mp4', f'Downloads_audios/{yt.title}.mp3')
+            self.delete_file(f'Downloads_audios/.{yt.title}.mp4')  
         else:
             print(
                 f'\n\tBaixando o vídeo {yt.title} no formato "mp4"(vídeo)\n\n')
@@ -185,6 +190,15 @@ class App:
         self.clear()
         sys.exit()
 
+    def convert_mp4_to_mp3(self, path_mp4, path_mp3): 
+        print('\n\n\tConvertendo para mp3, aguarde\n\n')    
+        mp4_without_frames = AudioFileClip(path_mp4)     
+        mp4_without_frames.write_audiofile(path_mp3)     
+        mp4_without_frames.close()
+
+    def delete_file(self, path_file):
+        if os.path.exists(path_file):
+            os.remove(path_file)
 
 if __name__ == '__main__':
     app = App()
